@@ -105,7 +105,7 @@ public class Angle {
   }
 
   /**
-   * Calculate the angle between three coordinates. Uses the SSS theorem http://mathworld.wolfram.com/SSSTheorem.html
+   * Calculate the angle between three coordinates. Uses the SSS theorem https://mathworld.wolfram.com/SSSTheorem.html
    *
    * @param x1 The first x coordinate.
    * @param y1 The first y coordinate.
