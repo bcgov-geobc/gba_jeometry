@@ -12,7 +12,7 @@
     <version>MAIN-SNAPSHOT</version>
   </parent>
   <description>Jeometry.org Dependency Management</description>
-  <url>http://revolsys.github.com/com.revolsys.open/</url>
+  <url>https://jeometry-org.github.io/jeometry/</url>
 
   <dependencyManagement>
     <dependencies>

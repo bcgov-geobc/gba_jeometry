@@ -13,10 +13,8 @@ public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
 
   private String label;
 
-  private final RefreshableValueHolder<Set<V>> value = new SupplierRefreshableValueHolder<Set<V>>(
+  private final RefreshableValueHolder<Set<V>> value = new SupplierRefreshableValueHolder<>(
     this::loadValue);
-
-  private boolean valueLoaded;
 
   public AbstractRefreshableSet(final boolean editable) {
     super(editable);
@@ -58,6 +56,7 @@ public abstract class AbstractRefreshableSet<V> extends AbstractDelegatingSet<V>
     this.value.get();
   }
 
+  @Override
   public Mono<Boolean> refreshIfNeeded$() {
     return Mono.fromCallable(() -> {
       if (this.value.isValueLoaded()) {

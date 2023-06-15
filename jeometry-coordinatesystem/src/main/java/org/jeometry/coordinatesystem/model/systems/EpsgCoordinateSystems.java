@@ -97,6 +97,8 @@ public final class EpsgCoordinateSystems {
     }
   }
 
+  public static final String URN_OGC_DEF_CRS_EPSG = "urn:ogc:def:crs:epsg::";
+
   private static final Map<Integer, Area> AREA_BY_ID = new HashMap<>();
 
   private static final Map<String, AxisName> AXIS_NAME_BY_NAME = new HashMap<>();
@@ -123,7 +125,7 @@ public final class EpsgCoordinateSystems {
 
   private static final Map<Integer, ParameterName> PARAM_NAME_BY_ID = new HashMap<>();
 
-  private static final Map<Integer, PrimeMeridian> PRIME_MERIDIAN_BY_ID = new HashMap<>();;
+  private static final Map<Integer, PrimeMeridian> PRIME_MERIDIAN_BY_ID = new HashMap<>();
 
   private static final EpsgSystemOfUnits SYSTEM_OF_UNITS = new EpsgSystemOfUnits();
 
@@ -510,10 +512,11 @@ public final class EpsgCoordinateSystems {
           final int coordinateSystemId = reader.readInt();
           final AxisName axisName = readCode(reader, AXIS_NAMES);
           final String orientation = readStringUtf8ByteCount(reader);
-          final Character abbreviation = (char)reader.readByte();
+          final char abbreviation = (char)reader.readByte();
           final UnitOfMeasure unitOfMeasure = readCode(reader, UNIT_BY_ID);
 
-          final Axis axis = new Axis(axisName, orientation, abbreviation.toString(), unitOfMeasure);
+          final Axis axis = new Axis(axisName, orientation, Character.toString(abbreviation),
+            unitOfMeasure);
           List<Axis> axises = axisesByCoordinateSystemId.get(coordinateSystemId);
           if (axises == null) {
             axises = new ArrayList<>();
@@ -777,12 +780,10 @@ public final class EpsgCoordinateSystems {
             } else {
               parameterValue = new ParameterValueNumber(unit, value);
             }
+          } else if (fileRef != null) {
+            parameterValue = new ParameterValueString(fileRef);
           } else {
-            if (fileRef != null) {
-              parameterValue = new ParameterValueString(fileRef);
-            } else {
-              parameterValue = null;
-            }
+            parameterValue = null;
           }
           Map<ParameterName, ParameterValue> parameterValues = operationParameters.get(operationId);
           if (parameterValues == null) {
@@ -1014,6 +1015,26 @@ public final class EpsgCoordinateSystems {
       .getResourceAsStream("/org/jeometry/coordinatesystem/epsg/" + fileName + ".bin");
     final BufferedInputStream bufferedIn = new BufferedInputStream(in);
     return new DataInputStream(bufferedIn);
+  }
+
+  public static CoordinateSystem parse(final String crs) {
+    int srid = -1;
+    if (crs != null) {
+      if ("urn:ogc:def:crs:OGC:2:84".equalsIgnoreCase(crs)) {
+        srid = 4326;
+      } else if (crs.toLowerCase().startsWith(URN_OGC_DEF_CRS_EPSG)) {
+        srid = Integer.parseInt(crs.substring(22));
+      } else if (crs.toLowerCase().startsWith("epsg:")) {
+        srid = Integer.parseInt(crs.substring(5));
+      } else {
+        return COORDINATE_SYSTEM_BY_NAME.get(crs);
+      }
+    }
+    if (srid == -1) {
+      return null;
+    } else {
+      return getCoordinateSystem(srid);
+    }
   }
 
   private static boolean readBoolean(final DataInputStream reader) throws IOException {
