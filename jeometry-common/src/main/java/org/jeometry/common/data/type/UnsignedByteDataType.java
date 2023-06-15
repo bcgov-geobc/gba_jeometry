@@ -1,14 +1,14 @@
 package org.jeometry.common.data.type;
 
-public class ByteDataType extends AbstractDataType {
+public class UnsignedByteDataType extends AbstractDataType {
 
-  public ByteDataType() {
+  public UnsignedByteDataType() {
     super("ubyte", Short.class, false);
   }
 
   @Override
   protected boolean equalsNotNull(final Object value1, final Object value2) {
-    return (short)value1 == (short)value2;
+    return (byte)value1 == (byte)value2;
   }
 
   @Override
@@ -33,6 +33,6 @@ public class ByteDataType extends AbstractDataType {
 
   @Override
   protected String toStringDo(final Object value) {
-    return String.valueOf((short)value);
+    return String.valueOf((byte)value);
   }
 }

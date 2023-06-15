@@ -127,7 +127,7 @@ public final class EpsgCoordinateSystems {
 
   private static final Map<Integer, PrimeMeridian> PRIME_MERIDIAN_BY_ID = new HashMap<>();
 
-  private static final EpsgSystemOfUnits SYSTEM_OF_UNITS = new EpsgSystemOfUnits();;
+  private static final EpsgSystemOfUnits SYSTEM_OF_UNITS = new EpsgSystemOfUnits();
 
   private static final Map<Integer, UnitOfMeasure> UNIT_BY_ID = new HashMap<>();
 

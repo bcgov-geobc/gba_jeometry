@@ -17,11 +17,33 @@ public interface Exceptions {
     return false;
   }
 
-  static boolean isException(Throwable e, final Class<? extends Throwable> clazz) {
+  static boolean hasMessage(Throwable e, final String expected) {
+    do {
+      final String message = e.getMessage();
+      if (message != null && message.equalsIgnoreCase(expected)) {
+        return true;
+      }
+      e = e.getCause();
+    } while (e != null);
+    return false;
+  }
+
+  static boolean hasMessagePart(Throwable e, final String expected) {
+    do {
+      final String message = e.getMessage();
+      if (message != null && message.toLowerCase().contains(expected)) {
+        return true;
+      }
+      e = e.getCause();
+    } while (e != null);
+    return false;
+  }
+
+  static boolean isException(final Throwable e, final Class<? extends Throwable> clazz) {
     while (e != null) {
       if (e instanceof WrappedException) {
         final WrappedException wrappedException = (WrappedException)e;
-        e = wrappedException.getCause();
+        return wrappedException.isException(clazz);
       } else if (clazz.isAssignableFrom(e.getClass())) {
         return true;
       } else {
@@ -29,6 +51,15 @@ public interface Exceptions {
       }
     }
     return false;
+  }
+
+  static String stackTraceToString(final Throwable e) {
+    final StringWriter stackTrace = new StringWriter();
+    try (
+      PrintWriter w = new PrintWriter(stackTrace)) {
+      e.printStackTrace(w);
+    }
+    return stackTrace.toString();
   }
 
   @SuppressWarnings("unchecked")
@@ -59,6 +90,19 @@ public interface Exceptions {
     final PrintWriter out = new PrintWriter(string);
     e.printStackTrace(out);
     return string.toString();
+  }
+
+  @SuppressWarnings("unchecked")
+  static <T extends Throwable> T unwrap(final Exception e, final Class<T> clazz) {
+    Throwable cause = e.getCause();
+    while (cause != null) {
+      if (clazz.isAssignableFrom(cause.getClass())) {
+        return (T)cause;
+      } else {
+        cause = e.getCause();
+      }
+    }
+    return null;
   }
 
   static Throwable unwrap(WrappedException e) {

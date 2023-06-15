@@ -28,6 +28,29 @@ import org.jeometry.common.data.type.DataTypes;
 import org.jeometry.common.logging.Logs;
 
 public interface Dates {
+  public static class Timer {
+    private final long startTime = System.currentTimeMillis();
+
+    private long stepStartTime = this.startTime;
+
+    private Timer() {
+
+    }
+
+    public void printStep(final String message) {
+      this.stepStartTime = printEllapsedTime(message, this.stepStartTime);
+
+    }
+
+    public void printTotal(final String message) {
+      printEllapsedTime(message, this.startTime);
+    }
+  }
+
+  DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+  DateTimeFormatter HHmmssSS = DateTimeFormatter.ofPattern("HHmmssSS");
+
   public static final ZoneId UTC = ZoneId.of("UTC");
 
   Pattern DATE_TIME_NANOS_PATTERN = Pattern.compile(
@@ -88,6 +111,14 @@ public interface Dates {
     } else {
       final DateFormat format = new SimpleDateFormat(pattern);
       return format(format, date);
+    }
+  }
+
+  static String format(final String pattern, final TemporalAccessor date) {
+    if (date == null) {
+      return null;
+    } else {
+      return DateTimeFormatter.ofPattern(pattern).format(date);
     }
   }
 
@@ -214,7 +245,12 @@ public interface Dates {
       final TemporalAccessor temporal = (TemporalAccessor)value;
       return Instant.from(temporal);
     } else {
-      return Instant.parse(value.toString());
+      final String string = value.toString();
+      if (string.charAt(4) == '-') {
+        return Instant.parse(string);
+      } else {
+        return Instant.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(string));
+      }
     }
   }
 
@@ -451,7 +487,7 @@ public interface Dates {
     if (dateString != null) {
       final Instant instant = Instant.parse(dateString);
       return Timestamp.from(instant);
-   } else {
+    } else {
       return null;
     }
   }
@@ -489,6 +525,10 @@ public interface Dates {
     final long endTime = System.currentTimeMillis();
     System.out.println(message + "\t" + toEllapsedTime(startTime, endTime));
     return endTime;
+  }
+
+  public static Timer timer() {
+    return new Timer();
   }
 
   @SuppressWarnings("deprecation")
