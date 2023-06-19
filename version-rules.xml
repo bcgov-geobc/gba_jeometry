@@ -23,7 +23,7 @@
         <ignoreVersion type="regex">.*-M.*</ignoreVersion>
       </ignoreVersions>
     </rule>
-    <rule groupId="jakarta.xml.bind" comparisonMethod="maven">
+    <rule groupId="javax.xml.bind" comparisonMethod="maven">
       <ignoreVersions>
         <ignoreVersion type="regex">.*-b\d+.\d+</ignoreVersion>
       </ignoreVersions>
