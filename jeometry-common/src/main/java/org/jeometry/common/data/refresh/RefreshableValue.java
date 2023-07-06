@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface RefreshableValue<V> extends Refreshable, Supplier<V> {
   static <T> SupplierRefreshableValue<T> supplier(final Supplier<T> supplier) {
-    return new SupplierRefreshableValue<T>(supplier);
+    return new SupplierRefreshableValue<>(supplier);
   }
 
   default Mono<V> asMono() {

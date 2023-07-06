@@ -10,7 +10,8 @@
     <ignoreVersion type="regex">.*-alpha.*</ignoreVersion>
     <ignoreVersion type="regex">.*-beta.*</ignoreVersion>
     <ignoreVersion type="regex">.*-MTEC.*</ignoreVersion>
-  </ignoreVersions>
+   <ignoreVersion type="regex">.*-M.*</ignoreVersion>
+   </ignoreVersions>
   <rules>
     <rule groupId="org.jeometry" comparisonMethod="maven">
       <ignoreVersions>
@@ -37,6 +38,11 @@
       <ignoreVersions>
         <ignoreVersion type="regex">.*-EDR</ignoreVersion>
         <ignoreVersion type="regex">.*-PRD</ignoreVersion>
+      </ignoreVersions>
+    </rule>    
+    <rule groupId="org.slf4j" comparisonMethod="maven">
+      <ignoreVersions>
+        <ignoreVersion type="regex">2\..*</ignoreVersion>
       </ignoreVersions>
     </rule>    
   </rules>

@@ -14,12 +14,12 @@
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
       <comments>This license applies to the Java code and all files included in the repository</comments>
     </license>
     <license>
-      <url>http://www.epsg.org/TermsOfUse.aspx</url>
+      <url>https://www.epsg.org/TermsOfUse.aspx</url>
       <comments>This license applies to the EPSG Coordinate Systems</comments>
     </license>
   </licenses>

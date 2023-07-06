@@ -60,10 +60,10 @@ public class CollectionDataType extends SimpleDataType {
     } else {
       final DataType jsonListType = DataTypes.getDataType("JsonList");
       if (jsonListType == null) {
-       return super.toObjectDo(value); 
+        return super.toObjectDo(value);
       } else {
-      final List<?> list = jsonListType.toObject(value);
-      return convertCollection(list);
+        final List<?> list = jsonListType.toObject(value);
+        return convertCollection(list);
       }
     }
   }

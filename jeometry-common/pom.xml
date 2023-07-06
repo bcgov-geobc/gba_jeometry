@@ -10,7 +10,7 @@
   </parent>
   <artifactId>jeometry-common</artifactId>
   <name>jeometry.org Common API</name>
-  <url>http://maven.apache.org</url>
+  <url>https://jeometry-org.github.io/jeometry/</url>
 
   <dependencyManagement>
     <dependencies>

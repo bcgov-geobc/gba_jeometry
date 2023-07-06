@@ -7,7 +7,7 @@ import org.jeometry.coordinatesystem.operation.CoordinatesOperationPoint;
 
 /**
  * An implementation of the Transverse Mercator projection. See section 1.3.5 of
- * <a href="http://www.epsg.org/guides/G7-2.html">OGP Surveying and Positioning
+ * <a href="https://www.epsg.org/guides/G7-2.html">OGP Surveying and Positioning
  * Guidance Note number 7, part 2.</a> Krüger and published in Finland as Recommendations for Public Administration (JHS) 154.
  *
  *
