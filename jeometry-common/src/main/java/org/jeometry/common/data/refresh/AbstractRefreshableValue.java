@@ -28,8 +28,13 @@ public abstract class AbstractRefreshableValue<V> implements RefreshableValue<V>
   protected abstract V loadValue();
 
   @Override
-  public synchronized void refreshIfNeeded() {
-    refreshValueIfNeeded();
+  public synchronized boolean refreshIfNeeded() {
+    if (this.value.isValueLoaded()) {
+      return false;
+    } else {
+      this.value.get();
+      return true;
+    }
   }
 
   @Override

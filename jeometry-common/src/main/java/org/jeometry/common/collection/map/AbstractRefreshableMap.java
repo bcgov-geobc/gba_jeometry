@@ -52,9 +52,12 @@ public abstract class AbstractRefreshableMap<K, V> extends AbstractDelegatingMap
   }
 
   @Override
-  public synchronized void refreshIfNeeded() {
-    if (!this.valueLoaded) {
+  public boolean refreshIfNeeded() {
+    if (this.valueLoaded) {
+      return false;
+    } else {
       refresh();
+      return true;
     }
   }
 

@@ -50,8 +50,13 @@ public abstract class AbstractRefreshableList<V> extends AbstractDelegatingList<
   }
 
   @Override
-  public synchronized void refreshIfNeeded() {
-    this.value.get();
+  public boolean refreshIfNeeded() {
+    if (this.value.isValueLoaded()) {
+      return false;
+    } else {
+      this.value.get();
+      return true;
+    }
   }
 
   public AbstractRefreshableList<V> setLabel(final String label) {
