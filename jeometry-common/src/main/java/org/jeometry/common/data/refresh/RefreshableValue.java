@@ -2,15 +2,9 @@ package org.jeometry.common.data.refresh;
 
 import java.util.function.Supplier;
 
-import reactor.core.publisher.Mono;
-
 public interface RefreshableValue<V> extends Refreshable, Supplier<V> {
   static <T> SupplierRefreshableValue<T> supplier(final Supplier<T> supplier) {
     return new SupplierRefreshableValue<>(supplier);
-  }
-
-  default Mono<V> asMono() {
-    return Mono.fromSupplier(this);
   }
 
   void clearValue();
@@ -25,11 +19,6 @@ public interface RefreshableValue<V> extends Refreshable, Supplier<V> {
   @Override
   default void refresh() {
     refreshValue();
-  }
-
-  @Override
-  default void refreshIfNeeded() {
-    refreshValueIfNeeded();
   }
 
   V refreshValue();

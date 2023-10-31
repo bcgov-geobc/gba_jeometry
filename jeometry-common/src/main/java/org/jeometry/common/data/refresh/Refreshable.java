@@ -1,7 +1,5 @@
 package org.jeometry.common.data.refresh;
 
-import reactor.core.publisher.Mono;
-
 public interface Refreshable {
 
   default String getLabel() {
@@ -10,12 +8,6 @@ public interface Refreshable {
 
   void refresh();
 
-  void refreshIfNeeded();
+  boolean refreshIfNeeded();
 
-  default Mono<Boolean> refreshIfNeeded$() {
-    return Mono.fromCallable(() -> {
-      refreshIfNeeded();
-      return true;
-    });
-  }
 }
