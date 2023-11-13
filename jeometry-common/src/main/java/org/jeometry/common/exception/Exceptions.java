@@ -81,7 +81,7 @@ public interface Exceptions {
     } else if (e instanceof Error) {
       throw (Error)e;
     } else {
-      throw wrap(e);
+      throw new WrappedException(e);
     }
   }
 
