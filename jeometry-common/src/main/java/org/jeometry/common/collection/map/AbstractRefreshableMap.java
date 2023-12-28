@@ -21,7 +21,7 @@ public abstract class AbstractRefreshableMap<K, V> extends AbstractDelegatingMap
   }
 
   @Override
-  public synchronized void clearValue() {
+  public void clearValue() {
     this.value.clear();
   }
 
@@ -47,7 +47,7 @@ public abstract class AbstractRefreshableMap<K, V> extends AbstractDelegatingMap
   protected abstract Map<K, V> loadValue();
 
   @Override
-  public synchronized void refresh() {
+  public void refresh() {
     this.value.get();
   }
 
