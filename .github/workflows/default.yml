@@ -54,19 +54,16 @@ jobs:
         
         if [[ ! -z "$TAG" ]]; then
           REF=${TAG}
-          OTHER_REF=0.GBA-${TAG}
         else
           REF=${BRANCH}
-          OTHER_REF=$REF
         fi
         echo "REF=${REF}" >> $GITHUB_ENV
-        echo "OTHER_REF=${OTHER_REF}" >> $GITHUB_ENV
 
 #### Checkout jeometry ####
     - name: Checkout jeometry
       uses: actions/checkout@v3
       with:
-        ref: ${{env.OTHER_REF}}
+        ref: ${{env.REF}}
         path: jeometry
 
 #### MAVEN REPOSITORY CACHE ####
