@@ -23,7 +23,6 @@ jobs:
 
     permissions: 
       contents: read
-      packages: write 
 
     steps:
 
@@ -79,6 +78,4 @@ jobs:
 #### Build & Deploy ####
     - name: Build & Deploy
       working-directory: ./jeometry
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn -B deploy -DskipTests -DgitHubRepo=${{github.repository}}
+      run: mvn -B -ntp -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip install
