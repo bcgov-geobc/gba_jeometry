@@ -32,6 +32,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'microsoft'
+        cache: 'maven'
 
 #### Initialize Environment ####
     - name: Initialize Environment
@@ -64,16 +65,6 @@ jobs:
       with:
         ref: ${{env.REF}}
         path: jeometry
-
-#### MAVEN REPOSITORY CACHE ####
-    - uses: actions/cache@v3
-      with:
-        path: |
-          '~/.m2/repository'
-          '!~/.m2/repository/org/jeometry'
-        key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
 
 #### Build & Deploy ####
     - name: Build & Deploy
