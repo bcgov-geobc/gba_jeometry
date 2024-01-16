@@ -23,7 +23,6 @@ jobs:
 
     permissions: 
       contents: read
-      packages: write 
 
     steps:
 
@@ -33,6 +32,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'microsoft'
+        cache: 'maven'
 
 #### Initialize Environment ####
     - name: Initialize Environment
@@ -54,34 +54,19 @@ jobs:
         
         if [[ ! -z "$TAG" ]]; then
           REF=${TAG}
-          OTHER_REF=0.GBA-${TAG}
         else
           REF=${BRANCH}
-          OTHER_REF=$REF
         fi
         echo "REF=${REF}" >> $GITHUB_ENV
-        echo "OTHER_REF=${OTHER_REF}" >> $GITHUB_ENV
 
 #### Checkout jeometry ####
     - name: Checkout jeometry
       uses: actions/checkout@v3
       with:
-        ref: ${{env.OTHER_REF}}
+        ref: ${{env.REF}}
         path: jeometry
-
-#### MAVEN REPOSITORY CACHE ####
-    - uses: actions/cache@v3
-      with:
-        path: |
-          '~/.m2/repository'
-          '!~/.m2/repository/org/jeometry'
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
 
 #### Build & Deploy ####
     - name: Build & Deploy
       working-directory: ./jeometry
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn -B deploy -DskipTests -DgitHubRepo=${{github.repository}}
+      run: mvn -B -ntp -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip install
