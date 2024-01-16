@@ -9,13 +9,6 @@ on:
     - '[0-9]+.[0-9]+.x'
 
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to build'
-        required: false
-      branch:
-        description: 'Branch to build'
-        required: false
 
 jobs:
   build:
@@ -25,6 +18,20 @@ jobs:
       contents: read
 
     steps:
+
+#### Initialize Environment ####
+    - name: Initialize Environment
+      run: |
+        REF="$GITHUB_REF"
+         if [[ "$REF" =~ ^refs/heads/.* ]]; then
+          REF="${REF/refs\/heads\//}"
+        elif [[ "$REF" =~ ^refs/tags/.* ]]; then
+          REF="${REF/refs\/tags\//}"
+        else
+          echo "Ref must be a branch or tag '${REF}'"
+          exit -1
+        fi
+        echo "REF=${REF}" >> $GITHUB_ENV
 
 #### Checkout jeometry ####
     - name: Checkout jeometry
@@ -40,31 +47,6 @@ jobs:
         java-version: '17'
         distribution: 'microsoft'
         cache: 'maven'
-
-#### Initialize Environment ####
-    - name: Initialize Environment
-      run: |
-        TAG="${{github.event.inputs.tag}}"
-        BRANCH="${{github.event.inputs.branch}}"
-
-        if [[ -z "$TAG" && -z "$BRANCH" ]]; then
-          REF="$GITHUB_REF"
-           if [[ "$REF" =~ ^refs/heads/.* ]]; then
-            BRANCH="${REF/refs\/heads\//}"
-          elif [[ "$REF" =~ ^refs/tags/.* ]]; then
-            TAG="${REF/refs\/tags\//}"
-          else
-            echo "Ref must be a branch or tag '${REF}'"
-            exit -1
-          fi
-        fi
-        
-        if [[ ! -z "$TAG" ]]; then
-          REF=${TAG}
-        else
-          REF=${BRANCH}
-        fi
-        echo "REF=${REF}" >> $GITHUB_ENV
 
 #### Build & Deploy ####
     - name: Build & Deploy
