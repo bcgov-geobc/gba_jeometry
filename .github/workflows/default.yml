@@ -71,7 +71,7 @@ jobs:
         path: |
           '~/.m2/repository'
           '!~/.m2/repository/org/jeometry'
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
 
