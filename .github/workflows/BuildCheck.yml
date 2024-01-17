@@ -6,8 +6,6 @@ on:
     - 'main'
     - 'feature/*'
     - 'patch/*'
-  pull_request:
-    types: [opened, reopened]
 
   workflow_dispatch:
 
