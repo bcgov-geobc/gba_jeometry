@@ -1,0 +1,50 @@
+name: Build Check
+
+on:
+  push:
+    branches:
+    - 'main'
+    - 'feature/*'
+    - 'patch/*'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+#### Initialize Environment ####
+    - name: Initialize Environment
+      run: |
+        REF="$GITHUB_REF"
+         if [[ "$REF" =~ ^refs/heads/.* ]]; then
+          REF="${REF/refs\/heads\//}"
+        elif [[ "$REF" =~ ^refs/tags/.* ]]; then
+          REF="${REF/refs\/tags\//}"
+        else
+          echo "Ref must be a branch or tag '${REF}'"
+          exit -1
+        fi
+        echo "REF=${REF}" >> $GITHUB_ENV
+
+#### Checkout jeometry ####
+    - name: Checkout jeometry
+      uses: actions/checkout@v4
+      with:
+        ref: ${{env.REF}}
+        path: jeometry
+
+#### JAVA VERSION ####
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'microsoft'
+        cache: 'maven'
+
+#### Build & Deploy ####
+    - name: Build & Deploy
+      working-directory: ./jeometry
+      run: mvn -B -ntp -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip install
