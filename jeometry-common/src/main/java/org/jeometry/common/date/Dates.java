@@ -91,6 +91,14 @@ public interface Dates {
     }
   }
 
+  static String format(final String pattern, final LocalDate date) {
+    if (date == null) {
+      return null;
+    } else {
+      return DateTimeFormatter.ofPattern(pattern).format(date);
+    }
+  }
+
   static Calendar getCalendar(final String dateString) {
     if (dateString != null) {
       final Matcher matcher = DATE_TIME_NANOS_PATTERN.matcher(dateString);
@@ -451,7 +459,7 @@ public interface Dates {
     if (dateString != null) {
       final Instant instant = Instant.parse(dateString);
       return Timestamp.from(instant);
-   } else {
+    } else {
       return null;
     }
   }
