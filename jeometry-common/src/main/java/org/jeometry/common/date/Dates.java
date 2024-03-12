@@ -64,6 +64,14 @@ public interface Dates {
     return format.format(date);
   }
 
+  static String format(final DateTimeFormatter formatter, final LocalDate date) {
+    if (date == null) {
+      return null;
+    } else {
+      return formatter.format(date);
+    }
+  }
+
   static String format(final int dateStyle, final int timeStyle, final Timestamp timestamp) {
     final DateFormat format = DateFormat.getDateTimeInstance(dateStyle, timeStyle);
     return format(format, timestamp);
@@ -451,7 +459,7 @@ public interface Dates {
     if (dateString != null) {
       final Instant instant = Instant.parse(dateString);
       return Timestamp.from(instant);
-   } else {
+    } else {
       return null;
     }
   }
