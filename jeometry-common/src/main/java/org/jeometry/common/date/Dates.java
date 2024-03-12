@@ -64,6 +64,14 @@ public interface Dates {
     return format.format(date);
   }
 
+  static String format(final DateTimeFormatter formatter, final LocalDate date) {
+    if (date == null) {
+      return null;
+    } else {
+      return formatter.format(date);
+    }
+  }
+
   static String format(final int dateStyle, final int timeStyle, final Timestamp timestamp) {
     final DateFormat format = DateFormat.getDateTimeInstance(dateStyle, timeStyle);
     return format(format, timestamp);
@@ -88,14 +96,6 @@ public interface Dates {
     } else {
       final DateFormat format = new SimpleDateFormat(pattern);
       return format(format, date);
-    }
-  }
-
-  static String format(final String pattern, final LocalDate date) {
-    if (date == null) {
-      return null;
-    } else {
-      return DateTimeFormatter.ofPattern(pattern).format(date);
     }
   }
 
